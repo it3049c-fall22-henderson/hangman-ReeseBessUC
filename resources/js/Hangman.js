@@ -1,4 +1,5 @@
 class Hangman {
+    
   constructor(_canvas) {
     if (!_canvas) {
       throw new Error(`invalid canvas provided`);
@@ -18,12 +19,18 @@ class Hangman {
    *    { word: "book" }
    * */
   getRandomWord(difficulty) {
+      //let rWord = fetch(`http://hangman-micro-service.herokuapp.com/?difficulty=${difficulty}`);
+      //WordDisplay( rWord.json() );
+      
+    
     return fetch(
-      `https://hangman-micro-service-bpblrjerwh.now.sh?difficulty=${difficulty}`
+      `http://hangman-micro-service.herokuapp.com/?difficulty=${difficulty}`
     )
       .then((r) => r.json())
       .then((r) => r.word);
   }
+  
+  
 
   /**
    *
@@ -97,21 +104,113 @@ class Hangman {
    * Draws the hangman base
    */
   drawBase() {
-    this.ctx.fillRect(95, 10, 150, 10); // Top
-    this.ctx.fillRect(245, 10, 10, 50); // Noose
-    this.ctx.fillRect(95, 10, 10, 400); // Main beam
-    this.ctx.fillRect(10, 410, 175, 10); // Base
+    this.ctx.strokeStyle = '#444';
+    this.ctx.lineWidth = 10; 
+    this.ctx.beginPath();
+    this.ctx.moveTo(175, 225);
+    this.ctx.lineTo(5, 225);
+    this.ctx.moveTo(40, 225);
+    this.ctx.lineTo(25, 5);
+    this.ctx.lineTo(100, 5);
+    this.ctx.lineTo(100, 25);
+    this.ctx.stroke();
   }
 
-  drawHead() {}
+  drawHead() {
+    this.ctx.lineWidth = 5;
+    this.ctx.beginPath();
+    this.ctx.arc(100, 50, 25, 0, Math.PI*2, true);
+    this.ctx.closePath();
+    this.ctx.stroke();
+  }
 
-  drawBody() {}
+  drawBody() {
+    this.ctx.beginPath();
+    this.ctx.moveTo(100, 75);
+    this.ctx.lineTo(100, 140);
+    this.ctx.stroke();
+  }
 
-  drawLeftArm() {}
+  drawLeftArm() {
+    this.ctx.beginPath();
+    this.ctx.moveTo(100, 85);
+    this.ctx.lineTo(140, 100);
+    this.ctx.stroke();
+  }
 
-  drawRightArm() {}
+  drawRightArm() {
+    this.ctx.beginPath();
+    this.ctx.moveTo(100, 85);
+    this.ctx.lineTo(60, 100);
+    this.ctx.stroke();
+  }
 
-  drawLeftLeg() {}
+  drawLeftLeg() {
+    this.ctx.beginPath();
+    this.ctx.moveTo(100, 140);
+    this.ctx.lineTo(125, 190);
+    this.ctx.stroke();
+  }
 
-  drawRightLeg() {}
+  drawRightLeg() {
+    this.ctx.beginPath();
+    this.ctx.moveTo(100, 140);
+    this.ctx.lineTo(80, 190);
+    this.ctx.stroke();
+  }
+  
+  drawLeftFoot() {
+    this.ctx.beginPath();
+    this.ctx.moveTo(122, 190);
+    this.ctx.lineTo(135, 185);
+    this.ctx.stroke();
+  }
+  
+  drawRightFoot() {
+    this.ctx.beginPath();
+    this.ctx.moveTo(82, 190);
+    this.ctx.lineTo(70, 185);
+    this.ctx.stroke();
+  }
+  
+  drawHangman(part) {
+      
+      switch (part) {
+      case 1:
+        this.drawBase();
+        break;
+
+      case 2:
+        this.drawHead();
+        break;
+      
+      case 3:
+        this.drawBody();
+        break;
+
+      case 4:
+        this.drawRightArm();
+        break;
+
+      case 5:
+        this.drawLeftArm();
+        break;
+
+      case 6:
+        this.drawRightLeg();
+        break;
+
+      case 7:
+         this.drawRightFoot();
+      break;
+
+      case 8:
+        this.drawLeftLeg();
+      break;
+
+      case 9:
+         this.drawLeftFoot();
+      break;
+   } 
+  }
 }
